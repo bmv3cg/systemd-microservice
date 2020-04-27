@@ -7,8 +7,18 @@ import (
 	"github.com/coreos/go-systemd/v22/dbus"
 )
 
-// StartSystemConn is a function to initalise connection systemd without using Dbus
+// StartSystemConn is a function to initalise connection systemd as user.
+// Systemd connection is made as user with minimal privllages.
 func StartSystemConn() (conn *dbus.Conn) {
+	conn, err := dbus.NewUserConnection()
+	if err != nil {
+		log.Fatalf("Cannot create Systemd connection: %v\n", err)
+	}
+	return conn
+}
+
+// StartSystemConn is a function to initalise connection systemd without using Dbus
+func SystemdConn() (conn *dbus.Conn) {
 	conn, err := dbus.NewSystemdConnection()
 	if err != nil {
 		log.Fatalf("Cannot create Systemd connection: %v\n", err)
