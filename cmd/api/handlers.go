@@ -1,11 +1,10 @@
 package api
 
 import (
-
 	"fmt"
 	"net/http"
-	sys "github.com/bmv3cg/systemd-microservice/pkg/systemd"
 
+	sys "github.com/bmv3cg/systemd-microservice/pkg/systemd"
 )
 
 func ApiIndex(w http.ResponseWriter, r *http.Request) {
@@ -15,7 +14,7 @@ func ApiIndex(w http.ResponseWriter, r *http.Request) {
 
 func Health(w http.ResponseWriter, r *http.Request) {
 	conn := sys.StartSystemConn()
-	target := "cron.service"
+	target := "syncthing.service"
 
 	fmt.Println(w, sys.ServiceStatus(conn, target))
 
@@ -29,7 +28,7 @@ func Health(w http.ResponseWriter, r *http.Request) {
 func StartUnit(w http.ResponseWriter, r *http.Request) {
 	conn := sys.StartSystemConn()
 	reschan := make(chan string)
-	target := "cron.service"
+	target := "syncthing.service"
 	if sys.StartService(conn, target, reschan) == true {
 		fmt.Fprint(w, "systemd unit ", target, " started\n")
 	} else {
@@ -40,7 +39,7 @@ func StartUnit(w http.ResponseWriter, r *http.Request) {
 func StopUnit(w http.ResponseWriter, r *http.Request) {
 	conn := sys.StartSystemConn()
 	reschan := make(chan string)
-	target := "cron.service"
+	target := "syncthing.service"
 	if sys.StopService(conn, target, reschan) == true {
 		fmt.Fprint(w, "systemd unit ", target, " stopped\n")
 	} else {
@@ -51,7 +50,7 @@ func StopUnit(w http.ResponseWriter, r *http.Request) {
 func RestartUnit(w http.ResponseWriter, r *http.Request) {
 	conn := sys.StartSystemConn()
 	reschan := make(chan string)
-	target := "cron.service"
+	target := "syncthing.service"
 	if sys.StartService(conn, target, reschan) == true {
 		fmt.Fprint(w, "systemd unit ", target, " restarted\n")
 	} else {
