@@ -15,9 +15,6 @@ func ApiIndex(w http.ResponseWriter, r *http.Request) {
 func Health(w http.ResponseWriter, r *http.Request) {
 	conn := sys.StartSystemConn()
 	target := "syncthing.service"
-
-	fmt.Println(w, sys.ServiceStatus(conn, target))
-
 	if sys.ServiceStatus(conn, target) == true {
 		fmt.Fprint(w, "systemd unit ", target, " is running!\n")
 	} else {
