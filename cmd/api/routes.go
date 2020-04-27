@@ -1,7 +1,6 @@
 package api
 
 import (
-
 	"net/http"
 )
 
@@ -22,7 +21,7 @@ var routes = Routes{
 		ApiIndex,
 	},
 	Route{
-		"RunTool",
+		"Health",
 		"GET",
 		"/api/v1/service/health",
 		Health,
@@ -46,5 +45,3 @@ var routes = Routes{
 		RestartUnit,
 	},
 }
-
-
