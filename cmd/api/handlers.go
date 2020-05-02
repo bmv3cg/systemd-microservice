@@ -10,7 +10,10 @@ import (
 
 // ApIIndex function for servinf API index 
 func ApIIndex(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Systemd manager microservice\n")
+	t := "Systemd manager microservice\n"
+	//fmt.Fprint(w, "Systemd manager microservice\n")
+	j, _ := json.Marshal(t)
+	w.Write(j)
 }
 
 // Health function check whether systemd fucntion is running 
