@@ -5,16 +5,19 @@ import (
 	"net/http"
 
 	sys "github.com/bmv3cg/systemd-microservice/pkg/systemd"
+	"github.com/spf13/viper"
 )
 
-func ApiIndex(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Welcome!\n")
-	fmt.Fprint(w, "systemd manager microservice\n")
+// ApIIndex function for servinf API index 
+func ApIIndex(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "Systemd manager microservice\n")
 }
 
+// Health function check whether systemd fucntion is running 
 func Health(w http.ResponseWriter, r *http.Request) {
 	conn := sys.StartSystemConn()
-	target := "syncthing.service"
+	fmt.Println(viper.GetString("systemdunit"))
+	target := viper.GetString("systemdunit")
 	if sys.ServiceStatus(conn, target) == true {
 		fmt.Fprint(w, "systemd unit ", target, " is running!\n")
 	} else {
@@ -22,10 +25,11 @@ func Health(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// StartUnit function starts systemd service which is configured in conf.yaml
 func StartUnit(w http.ResponseWriter, r *http.Request) {
 	conn := sys.StartSystemConn()
 	reschan := make(chan string)
-	target := "syncthing.service"
+	target := viper.GetString("systemdunit")
 	if sys.StartService(conn, target, reschan) == true {
 		fmt.Fprint(w, "systemd unit ", target, " started\n")
 	} else {
@@ -33,10 +37,11 @@ func StartUnit(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// StopUnit function stops systemd service which is configured in conf.yaml
 func StopUnit(w http.ResponseWriter, r *http.Request) {
 	conn := sys.StartSystemConn()
 	reschan := make(chan string)
-	target := "syncthing.service"
+	target := viper.GetString("systemdunit")
 	if sys.StopService(conn, target, reschan) == true {
 		fmt.Fprint(w, "systemd unit ", target, " stopped\n")
 	} else {
@@ -44,10 +49,11 @@ func StopUnit(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// RestartUnit function restarts systemd service which is configured in conf.yaml
 func RestartUnit(w http.ResponseWriter, r *http.Request) {
 	conn := sys.StartSystemConn()
 	reschan := make(chan string)
-	target := "syncthing.service"
+	target := viper.GetString("systemdunit")
 	if sys.StartService(conn, target, reschan) == true {
 		fmt.Fprint(w, "systemd unit ", target, " restarted\n")
 	} else {

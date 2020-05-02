@@ -18,26 +18,30 @@ var routes = Routes{
 		"Index",
 		"GET",
 		"/",
-		ApiIndex,
+		ApIIndex,
 	},
+
 	Route{
 		"Health",
 		"GET",
 		"/api/v1/service/health",
 		Health,
 	},
+	
 	Route{
 		"StartService",
 		"GET",
 		"/api/v1/service/start",
 		StartUnit,
 	},
+	
 	Route{
 		"StopService",
 		"GET",
 		"/api/v1/service/stop",
 		StopUnit,
 	},
+	
 	Route{
 		"RestartService",
 		"GET",
