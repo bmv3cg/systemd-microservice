@@ -30,21 +30,21 @@ var routes = Routes{
 	
 	Route{
 		"StartService",
-		"GET",
+		"POST",
 		"/api/v1/service/start",
 		StartUnit,
 	},
 	
 	Route{
 		"StopService",
-		"GET",
+		"POST",
 		"/api/v1/service/stop",
 		StopUnit,
 	},
 	
 	Route{
 		"RestartService",
-		"GET",
+		"POST",
 		"/api/v1/service/restart",
 		RestartUnit,
 	},
