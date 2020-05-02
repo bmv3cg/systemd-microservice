@@ -3,28 +3,38 @@ package api
 import (
 	"fmt"
 	"net/http"
+	"encoding/json"
 
 	sys "github.com/bmv3cg/systemd-microservice/pkg/systemd"
 	"github.com/spf13/viper"
 )
-
-// ApIIndex function for servinf API index 
-func ApIIndex(w http.ResponseWriter, r *http.Request) {
-	t := "Systemd manager microservice\n"
-	//fmt.Fprint(w, "Systemd manager microservice\n")
-	j, _ := json.Marshal(t)
-	w.Write(j)
+type jsonErr struct {
+	StatusCode int `json:"code"`
+	UnitName string `json:"unitname"`
+    UnitStatus string `json:"unitstatus"`
 }
 
-// Health function check whether systemd fucntion is running 
+// ApIIndex function for serving API index 
+func ApIIndex(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprint(w, "Systemd manager microservice\n")
+}
+
+// Health function check whether systemd unit is running 
 func Health(w http.ResponseWriter, r *http.Request) {
 	conn := sys.StartSystemConn()
-	fmt.Println(viper.GetString("systemdunit"))
 	target := viper.GetString("systemdunit")
 	if sys.ServiceStatus(conn, target) == true {
-		fmt.Fprint(w, "systemd unit ", target, " is running!\n")
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+		if err := json.NewEncoder(w).Encode(jsonErr{StatusCode: http.StatusOK, UnitName: target, UnitStatus: "systemd unit running"}); err != nil {
+			panic(err)
+		}
 	} else {
-		fmt.Fprint(w, "systemd unit ", target, " not running\n")
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusInternalServerError)
+		if err := json.NewEncoder(w).Encode(jsonErr{StatusCode: http.StatusInternalServerError, UnitName: target, UnitStatus: "systemd unit is not running"}); err != nil {
+			panic(err)
+		}
 	}
 }
 
@@ -34,9 +44,17 @@ func StartUnit(w http.ResponseWriter, r *http.Request) {
 	reschan := make(chan string)
 	target := viper.GetString("systemdunit")
 	if sys.StartService(conn, target, reschan) == true {
-		fmt.Fprint(w, "systemd unit ", target, " started\n")
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+		if err := json.NewEncoder(w).Encode(jsonErr{StatusCode: http.StatusOK, UnitName: target, UnitStatus: "systemd unit started"}); err != nil {
+			panic(err)
+		}
 	} else {
-		fmt.Fprint(w, "systemd unit ", target, " failed to start\n")
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusInternalServerError)
+		if err := json.NewEncoder(w).Encode(jsonErr{StatusCode: http.StatusInternalServerError, UnitName: target, UnitStatus: "failed to start systemd unit"}); err != nil {
+			panic(err)
+		}
 	}
 }
 
@@ -46,9 +64,17 @@ func StopUnit(w http.ResponseWriter, r *http.Request) {
 	reschan := make(chan string)
 	target := viper.GetString("systemdunit")
 	if sys.StopService(conn, target, reschan) == true {
-		fmt.Fprint(w, "systemd unit ", target, " stopped\n")
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+		if err := json.NewEncoder(w).Encode(jsonErr{StatusCode: http.StatusOK, UnitName: target, UnitStatus: "systemd unit stopped"}); err != nil {
+			panic(err)
+		}
 	} else {
-		fmt.Fprint(w, "systemd unit ", target, " failed to stop\n")
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusInternalServerError)
+		if err := json.NewEncoder(w).Encode(jsonErr{StatusCode: http.StatusInternalServerError, UnitName: target, UnitStatus: "failed to stop systemd unit"}); err != nil {
+			panic(err)
+		}
 	}
 }
 
@@ -58,8 +84,16 @@ func RestartUnit(w http.ResponseWriter, r *http.Request) {
 	reschan := make(chan string)
 	target := viper.GetString("systemdunit")
 	if sys.StartService(conn, target, reschan) == true {
-		fmt.Fprint(w, "systemd unit ", target, " restarted\n")
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+		if err := json.NewEncoder(w).Encode(jsonErr{StatusCode: http.StatusOK, UnitName: target, UnitStatus: "systemd unit restarted"}); err != nil {
+			panic(err)
+		}
 	} else {
-		fmt.Fprint(w, "systemd unit ", target, " failed to restart\n")
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(http.StatusInternalServerError)
+		if err := json.NewEncoder(w).Encode(jsonErr{StatusCode: http.StatusInternalServerError, UnitName: target, UnitStatus: "failed to restart systemd unit"}); err != nil {
+			panic(err)
+		}
 	}
 }
