@@ -1,11 +1,11 @@
 package main
 
 import (
-		"log"
-		"net/http"
-	   gmux "github.com/bmv3cg/systemd-microservice/cmd/api"
-	   "github.com/bmv3cg/systemd-microservice/pkg/config"
-	)
+	gmux "github.com/bmv3cg/systemd-microservice/cmd/api"
+	"github.com/bmv3cg/systemd-microservice/pkg/config"
+	"log"
+	"net/http"
+)
 
 func main() {
 
