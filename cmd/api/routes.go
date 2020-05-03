@@ -18,7 +18,7 @@ var routes = Routes{
 		"Index",
 		"GET",
 		"/",
-		ApIIndex,
+		Index,
 	},
 
 	Route{
