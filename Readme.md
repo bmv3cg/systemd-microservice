@@ -1,7 +1,7 @@
 Systemd-microservice
 ====================
 
-Systemd microservice api to manage a systemd unit which is running in user space. Normally systemd services are configured with root user account and requires sudo permissions to restart. Systemd microservice uses systemd with user configuration and enables user to manage systemd service with minimal permissions. You can find details of configuring systemd as user [here](https://wiki.archlinux.org/index.php/Systemd/User)
+Systemd microservice api to manage a systemd unit which is running in user space. Normally systemd services are configured with root user account and requires sudo permissions to restart. Systemd microservice uses a systemd service with user configuration and enables user to manage systemd service with minimal permissions through an API. You can find details of configuring systemd as user [here](https://wiki.archlinux.org/index.php/Systemd/User)
 
 Configuration
 -------------
@@ -57,7 +57,7 @@ You can restart the systemd service using the following post reqeust. Replace sy
 ```json
 curl -X POST -H "Accept: application/json"  https://systemd-service.local:8080/api/v1/service/restart
 {
-  "code": 200,
+  "statuscode": 200,
   "unitname": "systemd-test-user.service",
   "unitstatus": "systemd unit restarted"
 } 

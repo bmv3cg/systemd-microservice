@@ -6,7 +6,7 @@ import (
 
 // jsonResp is a struct for hanlding json reponse
 type jsonResp struct {
-	StatusCode int    `json:"code"`
+	StatusCode int    `json:"statuscode"`
 	UnitName   string `json:"unitname"`
 	UnitStatus string `json:"unitstatus"`
 }
