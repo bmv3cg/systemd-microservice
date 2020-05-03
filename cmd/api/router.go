@@ -2,9 +2,11 @@ package api
 
 import (
 	"net/http"
+
 	"github.com/gorilla/mux"
 )
 
+// NewRouter fucntions creates for mux
 func NewRouter() *mux.Router {
 
 	router := mux.NewRouter().StrictSlash(true)
