@@ -13,6 +13,7 @@ func init() {
 	grpclog.SetLogger(log.New(ioutil.Discard, "", 0))
 }
 
+// Logger fucntion to enable logging handler
 func Logger(inner http.Handler, name string) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()

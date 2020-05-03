@@ -1,1 +1,2 @@
-systemdunit: syncthing.service
+#replace systemd-stset-user with user level unit to manage
+systemdunit: systemd-test-user.service
